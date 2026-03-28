@@ -46,6 +46,21 @@ const conversationSlice = createSlice({
       state.messages = [];
       state.lastQueryResult = null;
     },
+    /**
+     * Replace thread from `GET /conversations/{job_id}/messages` when opening a BI job.
+     */
+    hydrateThread(
+      state,
+      action: PayloadAction<{
+        messages: ChatMessage[];
+        lastQueryResult: QueryResponse | null;
+        conversationId: string | null;
+      }>
+    ) {
+      state.messages = action.payload.messages;
+      state.lastQueryResult = action.payload.lastQueryResult;
+      state.conversationId = action.payload.conversationId;
+    },
   },
 });
 
@@ -55,5 +70,6 @@ export const {
   setLastQueryResult,
   clearMessages,
   clearThreadMessages,
+  hydrateThread,
 } = conversationSlice.actions;
 export default conversationSlice.reducer;

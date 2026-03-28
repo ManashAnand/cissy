@@ -44,7 +44,7 @@ def run_bi_nl_turn(
         "insight": None,
         "error": None,
     }
-
+ 
     if not settings.openai_api_key:
         out["insight"] = (
             "NL→SQL is not configured. Set OPENAI_API_KEY in the server environment to ask "

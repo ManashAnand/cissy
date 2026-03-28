@@ -75,11 +75,11 @@ export function ProjectCard({
             <h3 className="font-semibold leading-tight">{title}</h3>
             <div className="mt-2">
               <label className="sr-only" htmlFor={`company-${conversation.job_id}`}>
-                Company name
+                Cissy name
               </label>
               <Input
                 id={`company-${conversation.job_id}`}
-                placeholder="Enter company name"
+                placeholder="Enter Cissy name"
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
                 className="h-9 text-sm"

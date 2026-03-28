@@ -13,11 +13,13 @@ import {
   addMessage,
   clearMessages,
   clearThreadMessages,
+  hydrateThread,
   setConversationId,
   setLastQueryResult,
   type ChatMessage,
 } from "@/redux/features/conversationSlice";
-import { postQuery } from "@/services/api";
+import { mapMessagesResponse } from "@/lib/conversation/map-server-messages";
+import { getConversationMessages, postQuery } from "@/services/api";
 import type { QueryResponse } from "@/types/api";
 import { cn } from "@/lib/utils/cn";
 import { SqlBlock } from "@/components/Chat/sql-block";
@@ -52,6 +54,39 @@ export function ChatShell({
   /** Sync route scope only — do not clear messages here; floating ↔ docked remounts `ChatShell` with the same `jobId`. */
   useEffect(() => {
     dispatch(setConversationId(routeJobId ?? null));
+  }, [dispatch, routeJobId]);
+
+  /** Load persisted thread when scoped to a BI job (`/bi/[jobId]`). Runs here so it fires after `ChatShell` mounts (floating chat delays first paint). */
+  useEffect(() => {
+    if (!routeJobId) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const raw = await getConversationMessages(routeJobId);
+        if (cancelled) return;
+        const { messages: mapped, lastQueryResult } = mapMessagesResponse(raw);
+        dispatch(
+          hydrateThread({
+            messages: mapped,
+            lastQueryResult,
+            conversationId: routeJobId,
+          })
+        );
+      } catch (e) {
+        if (cancelled) return;
+        toast.error(e instanceof Error ? e.message : "Failed to load conversation");
+        dispatch(
+          hydrateThread({
+            messages: [],
+            lastQueryResult: null,
+            conversationId: routeJobId,
+          })
+        );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [dispatch, routeJobId]);
 
   async function submitMessage(text: string) {

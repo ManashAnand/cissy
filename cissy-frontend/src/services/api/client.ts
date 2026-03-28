@@ -3,6 +3,7 @@ import type {
   ConversationsListResponse,
   CreateConversationResponse,
 } from "@/types/conversations";
+import type { MessageItem, MessagesListResponse } from "@/types/conversation-messages";
 import type { QueryRequest, QueryResponse } from "@/types/api";
 import { normalizeQueryResponse } from "@/services/api/normalize-query-response";
 
@@ -114,6 +115,37 @@ export function postConversation(body?: { label?: string }) {
     method: "POST",
     body: body ?? {},
   });
+}
+
+/**
+ * Load persisted messages for a conversation (oldest → newest).
+ * Returns `null` if the job does not exist (404).
+ */
+export async function getConversationMessages(
+  jobId: string
+): Promise<MessagesListResponse | MessageItem[] | null> {
+  const base = getBaseUrl().replace(/\/$/, "");
+  if (!base) {
+    throw missingBaseError();
+  }
+  const url = `${base}/conversations/${encodeURIComponent(jobId)}/messages`;
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (res.status === 404) {
+    return null;
+  }
+  if (!res.ok) {
+    const text = await res.text();
+    throw errorFromFailedResponse(res.status, text);
+  }
+  const contentType = res.headers.get("content-type") ?? "";
+  if (contentType.includes("text/html")) {
+    const text = await res.text();
+    throw errorFromFailedResponse(res.status, text);
+  }
+  return res.json() as Promise<MessagesListResponse | MessageItem[]>;
 }
 
 /** Remove a conversation thread and its messages. Backend returns 204 or empty body. */

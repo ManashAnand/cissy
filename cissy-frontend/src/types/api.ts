@@ -11,15 +11,18 @@ export type QueryColumn = {
 /** Single point for charting; mirrors backend `dataPoints`. */
 export type ChartDataPoint = { x: unknown; y: unknown };
 
+/** Backend `chart.type` from NL→SQL heuristics (`chart_heuristics.py`). */
+export type ChartKind = "bar" | "line" | "pie" | "scatter" | "table";
+
 export type ChartSpec = {
-  type: "bar" | "line" | "pie" | "table";
+  type: ChartKind;
   xKey?: string;
   yKey?: string;
   title?: string;
   /** Parallel to `yValues`; same length when backend sends series arrays. */
   xValues?: unknown[];
   yValues?: unknown[];
-  /** Preferred: `{ x, y }[]` aligned with xKey/yKey semantics. */
+  /** Preferred: `{ x, y }[]` — use without `rows` for history replay. */
   dataPoints?: ChartDataPoint[];
 };
 
