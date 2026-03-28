@@ -16,6 +16,7 @@ export type ChartSpec = {
 };
 
 export type QueryResponse = {
+  job_id?: string;
   sql?: string;
   columns: QueryColumn[];
   rows: Record<string, unknown>[];
@@ -26,5 +27,6 @@ export type QueryResponse = {
 
 export type QueryRequest = {
   message: string;
+  /** Same as backend `job_id` (wire alias). */
   conversationId?: string;
 };

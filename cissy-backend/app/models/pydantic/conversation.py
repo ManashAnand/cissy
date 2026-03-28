@@ -11,14 +11,18 @@ class ConversationCreateBody(BaseModel):
 
 
 class ConversationCreatedResponse(BaseModel):
+    """Matches dashboard-apis.md `CreateConversationResponse`."""
+
     job_id: str
-    label: str
-    created_at: str
+    label: str | None = None
+    created_at: str | None = None
 
 
 class ConversationListItem(BaseModel):
+    """Matches dashboard-apis.md `ConversationSummary`."""
+
     job_id: str
-    label: str
+    label: str | None = None
     updated_at: str
     created_at: str
 

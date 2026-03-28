@@ -63,3 +63,24 @@ def test_conversation_id_alias():
         )
         assert r.status_code == 200
         assert r.json()["job_id"] == jid
+
+
+def test_delete_conversation():
+    with TestClient(app) as client:
+        jid = client.post("/api/v1/conversations", json={}).json()["job_id"]
+        d = client.delete(f"/api/v1/conversations/{jid}")
+        assert d.status_code == 204
+        assert d.content == b""
+
+        listed = client.get("/api/v1/conversations").json()["conversations"]
+        assert not any(c["job_id"] == jid for c in listed)
+
+        assert client.delete(f"/api/v1/conversations/{jid}").status_code == 404
+
+
+def test_delete_conversation_unknown():
+    with TestClient(app) as client:
+        r = client.delete(
+            "/api/v1/conversations/00000000-0000-0000-0000-000000000099"
+        )
+        assert r.status_code == 404

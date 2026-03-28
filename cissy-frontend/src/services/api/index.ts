@@ -1,1 +1,8 @@
-export { apiFetch, postQuery, getHealth } from "./client";
+export {
+  apiFetch,
+  postQuery,
+  getHealth,
+  getConversations,
+  postConversation,
+  deleteConversation,
+} from "./client";

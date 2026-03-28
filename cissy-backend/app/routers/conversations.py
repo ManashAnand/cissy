@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, Response
 
 from app.db.duckdb import get_duckdb
 from app.models.pydantic.conversation import (
@@ -40,6 +40,18 @@ def create_conversation(
         label=row["label"],
         created_at=row["created_at"],
     )
+
+
+@router.delete("/conversations/{job_id}", status_code=204)
+def delete_conversation(job_id: UUID, conn=Depends(get_duckdb)) -> Response:
+    """Delete a conversation (dashboard card) and all of its messages."""
+    sid = str(job_id)
+    if not conversation_service.delete_conversation(conn, sid):
+        raise HTTPException(
+            status_code=404,
+            detail=f"Unknown job_id: {sid}",
+        )
+    return Response(status_code=204)
 
 
 @router.get("/conversations/{job_id}/messages", response_model=MessagesListResponse)

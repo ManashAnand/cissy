@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -11,18 +11,31 @@ import type { RootState } from "@/redux/store";
 import {
   addMessage,
   clearMessages,
+  clearThreadMessages,
+  setConversationId,
   type ChatMessage,
 } from "@/redux/features/conversationSlice";
 import { postQuery } from "@/services/api";
 import type { QueryResponse } from "@/types/api";
 
-export function ChatShell() {
+type ChatShellProps = {
+  /** When set (e.g. from `/bi/[jobId]`), scopes queries to this conversation. */
+  routeJobId?: string | null;
+};
+
+export function ChatShell({ routeJobId = null }: ChatShellProps) {
   const dispatch = useDispatch();
   const { messages, conversationId } = useSelector(
     (s: RootState) => s.conversation
   );
   const formId = useId();
   const [lastResult, setLastResult] = useState<QueryResponse | null>(null);
+
+  useEffect(() => {
+    dispatch(clearMessages());
+    setLastResult(null);
+    dispatch(setConversationId(routeJobId ?? null));
+  }, [dispatch, routeJobId]);
 
   async function onSubmit(formData: FormData) {
     const text = String(formData.get("message") ?? "").trim();
@@ -42,6 +55,9 @@ export function ChatShell() {
         conversationId: conversationId ?? undefined,
       });
       setLastResult(res);
+      if (res.job_id) {
+        dispatch(setConversationId(res.job_id));
+      }
       if (res.error) {
         toast.error(res.error);
       }
@@ -116,7 +132,7 @@ export function ChatShell() {
               type="button"
               variant="outline"
               onClick={() => {
-                dispatch(clearMessages());
+                dispatch(routeJobId ? clearThreadMessages() : clearMessages());
                 setLastResult(null);
               }}
             >

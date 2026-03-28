@@ -1,6 +1,11 @@
 import { ChatShell } from "@/components/Chat/chat-shell";
 
-export function BiHome() {
+type BiHomeProps = {
+  /** From `/bi/[jobId]`; scopes chat to this `job_id`. */
+  jobId?: string;
+};
+
+export function BiHome({ jobId }: BiHomeProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -9,8 +14,13 @@ export function BiHome() {
           Natural-language questions are sent to the FastAPI service, which runs
           DuckDB and returns tables, SQL, and optional chart metadata.
         </p>
+        {jobId ? (
+          <p className="text-xs font-mono text-muted-foreground mt-2">
+            Conversation: {jobId}
+          </p>
+        ) : null}
       </div>
-      <ChatShell />
+      <ChatShell routeJobId={jobId ?? null} />
     </div>
   );
 }

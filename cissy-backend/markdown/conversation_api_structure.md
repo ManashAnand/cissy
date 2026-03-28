@@ -32,7 +32,9 @@ HTTP (/api/v1/…)
 | Method | Path | Role |
 |--------|------|------|
 | GET | `/health` | Liveness / version |
-| GET | `/conversations` | Dashboard list; sort `updated_at` desc |
+| GET | `/dashboard` | **Stats (four cards) + all `projects` (per `job_id`) + `job_ids` list** — single payload for the BI dashboard UI |
+| GET | `/conversations` | Conversation list; sort `updated_at` desc |
+| DELETE | `/conversations/{job_id}` | Delete conversation + messages (**204**) |
 | POST | `/conversations` | Create empty chat; returns `job_id` |
 | GET | `/conversations/{job_id}/messages` | Full thread history |
 | POST | `/query` | User message + optional `job_id` / `conversationId`; creates thread if omitted (Option A) |

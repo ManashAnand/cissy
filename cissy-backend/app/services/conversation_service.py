@@ -9,6 +9,8 @@ from typing import Any
 
 from duckdb import DuckDBPyConnection
 
+from app.utils.datetime_fmt import iso8601_utc_z, nullable_label
+
 
 def _now() -> datetime:
     return datetime.now(UTC).replace(tzinfo=None)
@@ -23,18 +25,22 @@ def create_conversation(
     job_id = str(uuid.uuid4())
     now = _now()
     title = label.strip() if label and label.strip() else "New chat"
+    project_type = "BI Analysis"
     conn.execute(
         """
-        INSERT INTO conversations (id, label, created_at, updated_at, parent_conversation_id)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO conversations (
+            id, label, created_at, updated_at, parent_conversation_id,
+            status, project_type, company_name, file_count, launch_readiness
+        )
+        VALUES (?, ?, ?, ?, ?, 'active', ?, NULL, 0, 'not_ready')
         """,
-        [job_id, title, now, now, parent_conversation_id],
+        [job_id, title, now, now, parent_conversation_id, project_type],
     )
     return {
         "job_id": job_id,
         "label": title,
-        "created_at": now.isoformat() + "Z",
-        "updated_at": now.isoformat() + "Z",
+        "created_at": iso8601_utc_z(now),
+        "updated_at": iso8601_utc_z(now),
     }
 
 
@@ -44,6 +50,15 @@ def conversation_exists(conn: DuckDBPyConnection, job_id: str) -> bool:
         [job_id],
     ).fetchone()
     return row is not None
+
+
+def delete_conversation(conn: DuckDBPyConnection, job_id: str) -> bool:
+    """Remove all messages and the conversation row. Returns True if the conversation existed."""
+    if not conversation_exists(conn, job_id):
+        return False
+    conn.execute("DELETE FROM messages WHERE job_id = ?", [job_id])
+    conn.execute("DELETE FROM conversations WHERE id = ?", [job_id])
+    return True
 
 
 def list_conversations(conn: DuckDBPyConnection) -> list[dict[str, Any]]:
@@ -61,21 +76,12 @@ def list_conversations(conn: DuckDBPyConnection) -> list[dict[str, Any]]:
         out.append(
             {
                 "job_id": cid,
-                "label": label or "New chat",
-                "created_at": _iso(created_at),
-                "updated_at": _iso(updated_at),
+                "label": nullable_label(label),
+                "created_at": iso8601_utc_z(created_at),
+                "updated_at": iso8601_utc_z(updated_at),
             }
         )
     return out
-
-
-def _iso(ts: Any) -> str:
-    if ts is None:
-        return ""
-    if hasattr(ts, "isoformat"):
-        s = ts.isoformat()
-        return s + "Z" if not s.endswith("Z") and "+" not in s else s
-    return str(ts)
 
 
 def append_message(
@@ -122,7 +128,7 @@ def get_messages(conn: DuckDBPyConnection, job_id: str) -> list[dict[str, Any]]:
             "job_id": job_id,
             "role": role,
             "content": content,
-            "created_at": _iso(created_at),
+            "created_at": iso8601_utc_z(created_at),
         }
         if meta_s:
             try:

@@ -40,4 +40,35 @@ def ensure_app_tables(conn: DuckDBPyConnection) -> None:
     conn.execute(
         "CREATE INDEX IF NOT EXISTS idx_conversations_updated ON conversations(updated_at)"
     )
+    _ensure_conversation_dashboard_columns(conn)
     logger.info("Application tables (conversations, messages) ensured")
+
+
+def _conversation_column_names(conn: DuckDBPyConnection) -> set[str]:
+    rows = conn.execute(
+        """
+        SELECT column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'main' AND table_name = 'conversations'
+        """
+    ).fetchall()
+    return {str(r[0]).lower() for r in rows}
+
+
+def _ensure_conversation_dashboard_columns(conn: DuckDBPyConnection) -> None:
+    """Add dashboard/card columns to conversations (idempotent)."""
+    have = _conversation_column_names(conn)
+    # column_sql: name -> ADD COLUMN fragment (no IF NOT EXISTS for older DuckDB)
+    additions: dict[str, str] = {
+        "status": "VARCHAR DEFAULT 'active'",
+        "project_type": "VARCHAR DEFAULT 'BI Analysis'",
+        "company_name": "VARCHAR",
+        "file_count": "INTEGER DEFAULT 0",
+        "launch_readiness": "VARCHAR DEFAULT 'not_ready'",
+    }
+    for col, typ in additions.items():
+        if col.lower() in have:
+            continue
+        conn.execute(f"ALTER TABLE conversations ADD COLUMN {col} {typ}")
+        have.add(col.lower())
+    logger.info("Conversation dashboard columns ensured")

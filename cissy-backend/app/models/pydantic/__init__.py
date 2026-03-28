@@ -1,5 +1,11 @@
 from app.models.pydantic.bi import ColumnSchema, SchemaResponse, TableSchema
 from app.models.pydantic.common import HealthResponse
+from app.models.pydantic.dashboard import (
+    DashboardProjectCard,
+    DashboardResponse,
+    DashboardStatCard,
+    DashboardStatsBlock,
+)
 from app.models.pydantic.conversation import (
     ColumnSpec,
     ConversationCreateBody,
@@ -15,6 +21,10 @@ from app.models.pydantic.conversation import (
 __all__ = [
     "ColumnSchema",
     "ColumnSpec",
+    "DashboardProjectCard",
+    "DashboardResponse",
+    "DashboardStatCard",
+    "DashboardStatsBlock",
     "ConversationCreateBody",
     "ConversationCreatedResponse",
     "ConversationListItem",

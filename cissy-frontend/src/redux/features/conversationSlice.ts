@@ -31,9 +31,17 @@ const conversationSlice = createSlice({
       state.messages = [];
       state.conversationId = null;
     },
+    /** Clear chat bubbles only; keep `conversationId` (e.g. on `/bi/[jobId]`). */
+    clearThreadMessages(state) {
+      state.messages = [];
+    },
   },
 });
 
-export const { setConversationId, addMessage, clearMessages } =
-  conversationSlice.actions;
+export const {
+  setConversationId,
+  addMessage,
+  clearMessages,
+  clearThreadMessages,
+} = conversationSlice.actions;
 export default conversationSlice.reducer;

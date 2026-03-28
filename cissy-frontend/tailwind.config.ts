@@ -8,7 +8,20 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    container: {
+      center: true,
+      padding: "1.5rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
+      boxShadow: {
+        card:
+          "0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.06)",
+        "card-hover":
+          "0 10px 40px -10px rgb(91 33 182 / 0.12), 0 4px 6px -2px rgb(15 23 42 / 0.05)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
