@@ -213,11 +213,16 @@ Set the same env vars on the host; **`BACKEND_URL`** must point at your deployed
 
 The home page greets the analyst, shows summary metrics (projects, documents, timing, pending work), and links to **New chat**. **Your Projects** lists BI conversations with search, status filter, and grid or list layout; each card supports rename, launch to the BI workspace, details, and delete.
 
-![Dashboard — overview: greeting, metrics, and Your Projects (partial)](docs/images/dashboard/home-overview.png)
+Dashboard — overview: greeting, metrics, and Your Projects (partial)
+<img width="1470" height="841" alt="image" src="https://github.com/user-attachments/assets/796de9ac-d5e4-42e6-b515-2d70be1dab5d" />
+In dark mode:
+<img width="1470" height="837" alt="image" src="https://github.com/user-attachments/assets/35ceaa98-ea56-4ff8-9444-8cd5f8cb0447" />
+<img width="1470" height="565" alt="image" src="https://github.com/user-attachments/assets/624a612c-617d-4b2f-9ce1-7128c4001f27" />
+<img width="1470" height="538" alt="image" src="https://github.com/user-attachments/assets/0924e9d1-e589-42ae-ac18-f0237a9e5e83" />
 
-![Your Projects — grid view with search, filters, and project cards](docs/images/dashboard/projects-grid.png)
 
-![Your Projects — list view with actions (Launch, Info, Delete)](docs/images/dashboard/projects-list.png)
+
+
 
 ### Chatbot (Financial Analyst)
 
@@ -228,23 +233,27 @@ On **`/bi/[jobId]`**, the **Financial Analyst** chat sends natural-language ques
 - **Floating (or docked) chat, sheet stays visible** — The point is to **avoid tab-hopping**. You keep the embedded sheet (or data context) in view while you ask questions and read answers. That way you can treat the assistant’s **SQL**, **chart**, and **result preview** as immediate **proof of extraction** against what you see in the workspace, without leaving the BI surface or juggling another browser tab.
 - **Capped table & chart in the chat** — We still show a **real** slice of what DuckDB returned—enough to **validate** the query and build trust—but not an unbounded dump. The UI renders only the **first 500 rows** of a result table (with an explicit message when more rows exist); charts use the same capped / summarized semantics so visuals stay meaningful. That keeps the chat responsive and readable when underlying tables can hold **millions** of rows, while the backend’s NL→SQL path also applies its own **row cap** for safety.
 
-![BI workspace — floating Financial Analyst over the sheet (question, answer, SQL)](docs/images/chatbot/workspace-floating.png)
+### Attached chatbot
 
-![Docked chat beside the aisles spreadsheet — NL→SQL, SQL block, and reply](docs/images/chatbot/docked-spreadsheet-chat.png)
+<img width="1470" height="882" alt="image" src="https://github.com/user-attachments/assets/11cf554d-0e91-41b3-afcd-c1c99754d4d9" />
 
-![Docked layout — large table preview (e.g. order lines) with chart + SQL alongside](docs/images/chatbot/docked-large-sheet-chart.png)
 
-![Financial Analyst — insight text, SQL snippet, and chart preview](docs/images/chatbot/analyst-sql-and-chart.png)
+### Visible sheet behind
 
-![Pie / donut chart — slice tooltip and scrollable legend (values and %)](docs/images/chatbot/donut-tooltip-legend.png)
+<img width="1470" height="841" alt="image" src="https://github.com/user-attachments/assets/04e967d0-755a-46b2-a718-d52aed06c272" />
+
 
 ### Light and dark mode
 
 The app shell supports **light** and **dark** themes. Use the **sun / moon** control in the top navbar to switch; the choice applies to the dashboard, BI workspace, and Financial Analyst chat. Earlier screenshots on this page mostly show **dark** mode; below is the same experiences in **light** mode (white surfaces, purple accents).
 
-![Light theme — home dashboard: greeting, KPI cards, Your Projects header](docs/images/theme/light-dashboard-home.png)
+Light theme — home dashboard: greeting, KPI cards, Your Projects header
+<img width="1470" height="843" alt="image" src="https://github.com/user-attachments/assets/1a0be0a8-229f-4f49-ad3d-3a3b019c54f4" />
+<img width="1470" height="873" alt="image" src="https://github.com/user-attachments/assets/7c64eddc-75eb-431d-b620-3020829f0c30" />
+<img width="465" height="689" alt="image" src="https://github.com/user-attachments/assets/c25e69e1-28b9-44d0-9cbb-e48512fcd1ad" />
+with sql 
+<img width="450" height="672" alt="image" src="https://github.com/user-attachments/assets/c1a4b067-1ecd-4cca-bb80-6b68f89eac39" />
 
-![Light theme — BI workspace: embedded sheet preview, docked chat with SQL and donut chart](docs/images/theme/light-bi-workspace-docked.png)
 
 ### Other (app shell)
 
