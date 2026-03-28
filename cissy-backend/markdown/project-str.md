@@ -158,6 +158,20 @@ For a full list of endpoints, inspect each router file or use FastAPI’s OpenAP
 
 DuckDB and raw CSVs are stored **inside `cissy-backend/data/`** (not beside `cissy-frontend`). Defaults: `data/instacart.duckdb`, `data/csv/` for imports. See `data/README.md`.
 
+### `data/csv/` — Instacart CSV inventory
+
+There are **6** CSV files. Row counts below are **data rows** (one header line per file excluded).
+
+| File | Data rows |
+|------|-----------|
+| `aisles.csv` | 134 |
+| `departments.csv` | 21 |
+| `orders.csv` | 3,421,083 |
+| `order_products__prior.csv` | 32,434,489 |
+| `order_products__train.csv` | 1,384,617 |
+| `products.csv` | 49,688 |
+| **Total** | **37,290,032** |
+
 ---
 
 ## Monorepo folder layout (parent of this repo)

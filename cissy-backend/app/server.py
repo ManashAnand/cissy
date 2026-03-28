@@ -9,11 +9,15 @@ from app import __version__
 from app.config import settings
 from app.db.duckdb import init_duckdb, shutdown_duckdb
 from app.routers import router as api_v1_router
+from app.services.app_schema import ensure_app_tables
+from app.services.instacart_dataset import register_instacart_views
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    init_duckdb()
+    conn = init_duckdb()
+    ensure_app_tables(conn)
+    register_instacart_views(conn)
     try:
         yield
     finally:
