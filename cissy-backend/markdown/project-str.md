@@ -1,6 +1,6 @@
-# Hencorp Backend — Project Structure
+#  Backend — Project Structure
 
-This repository is a **Python [FastAPI](https://fastapi.tiangolo.com/)** service (“Hencorp Backend”). The API is mounted under `root_path=/api/v1` (see `app/server.py`). Business logic lives under `app/services/`; HTTP routes under `app/routers/`; persistence and request/response shapes under `app/models/`.
+This repository is a **Python [FastAPI](https://fastapi.tiangolo.com/)** service (“ Backend”). The API is mounted under `root_path=/api/v1` (see `app/server.py`). Business logic lives under `app/services/`; HTTP routes under `app/routers/`; persistence and request/response shapes under `app/models/`.
 
 ---
 

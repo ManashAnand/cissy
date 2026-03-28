@@ -4,6 +4,7 @@ import type {
   CreateConversationResponse,
 } from "@/types/conversations";
 import type { QueryRequest, QueryResponse } from "@/types/api";
+import { normalizeQueryResponse } from "@/services/api/normalize-query-response";
 
 const getBaseUrl = () => {
   const url = process.env.NEXT_PUBLIC_API_URL;
@@ -76,17 +77,18 @@ export async function apiFetch<T>(
 }
 
 /** Natural-language → DuckDB (via backend). Sends `job_id` for thread scope. */
-export function postQuery(body: QueryRequest) {
+export async function postQuery(body: QueryRequest): Promise<QueryResponse> {
   const { conversationId, message } = body;
   const payload: Record<string, unknown> = { message };
   if (conversationId) {
     payload.job_id = conversationId;
     payload.conversationId = conversationId;
   }
-  return apiFetch<QueryResponse>("/query", {
+  const raw = await apiFetch<QueryResponse>("/query", {
     method: "POST",
     body: payload,
   });
+  return normalizeQueryResponse(raw);
 }
 
 /** Optional: backend health for status indicator. */

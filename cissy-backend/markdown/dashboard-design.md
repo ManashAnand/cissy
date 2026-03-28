@@ -108,7 +108,7 @@ Use English-only strings. Structure matches the **Your Projects** view: title, s
 | Field | Description |
 |-------|-------------|
 | **Status** | Badge, e.g. Completed (green check **icon** + text). |
-| **Title** | e.g. **Credit Analysis** (job type label). |
+| **Title** | e.g. **Cissy Analysis** (job type label). |
 | **Company name** | Editable text field; placeholder **Enter company name** or saved value. |
 | **File count** | e.g. `1 file` with **file icon** (`File` / `Paperclip`), not an image. |
 | **Last updated** | Relative time, e.g. **about 11 hours ago**. |
@@ -128,7 +128,7 @@ Opened from the **info** icon (`Info` / `CircleHelp`) on a card. English-only la
 | **Job ID** | `35eac9f5-0f43-41ed-8854-9201401c86f6` | UUID; primary identifier for the job (`job_id` in data model). Show in a monospace or selectable block. |
 | **Created** | `Mar 28, 2026 at 12:34 AM` | Absolute timestamp. |
 | **Files** | `1 file` | Count. |
-| **Type** | `Credit Analysis` | Job / product type string. |
+| **Type** | `Cissy Analysis` | Job / product type string. |
 
 This aligns with **`job_id` as the single source of truth** for backend and routing resolution (see [`job_id_source_of_truth.md`](./job_id_source_of_truth.md)).
 

@@ -17,7 +17,7 @@ The **job** row holds domain fields such as status, company name, and job type. 
 
 | Identifier | What it is | Typical use in the app |
 |------------|------------|-------------------------|
-| **`user_files.id`** | Primary key of the **`user_files`** row | **URL segment `[id]`** for analyst routes (e.g. `/credit-analyst/[id]`, `/financial-modeler/[id]`). Also called **`filesId`** in some components. |
+| **`user_files.id`** | Primary key of the **`user_files`** row | **URL segment `[id]`** for analyst routes (e.g. `/Cissy-analyst/[id]`, `/financial-modeler/[id]`). Also called **`filesId`** in some components. |
 | **`job_id` / `jobId`** | **`jobs.id`** (via `user_files.job_id` or nested `jobs`) | APIs, chat scope, reports, SAT credential URLs keyed by job, unit conversion, tickets tied to a job, etc. |
 | **`extraction_job_id`** | Separate SAT **extraction** run id | SAT analytics and extraction flows; **not** interchangeable with `job_id`. Routes like `.../sat-analytics/[extractionJobId]` use this alongside resolving **`jobId`** from file data. |
 | **`linkId`** | Shareable folder link | Shareable-links UI; lists jobs under a folder, still keyed by normal job/file ids in payloads. |
@@ -36,7 +36,7 @@ Analyst pages receive **`params.id`** as the **`user_files`** id. The **`Agent`*
       outputExcel: row.output_excel,
       jobId: row.job_id,
       jobStatus: jobsData?.status || null,
-      jobType: jobsData?.job_type || 'credit',
+      jobType: jobsData?.job_type || 'Cissy',
       templateUrl: row.template_url || undefined,
       apiMetadata: row.api_metadata || null,
     };
@@ -51,7 +51,7 @@ That pattern is the **bridge** from URL **`[id]` = file row** to **`jobId` = job
 
 The SAT analytics page documents explicitly that **`params.id`** is the **user_files** id, and resolves **`actualJobId`** from fetched data’s **`jobId`** before rendering:
 
-```11:14:src/app/(protected)/credit-analyst/[id]/sat-analytics/[extractionJobId]/page.tsx
+```11:14:src/app/(protected)/Cissy-analyst/[id]/sat-analytics/[extractionJobId]/page.tsx
   const filesId = params?.id as string; // This is the user_files ID, not the job ID
   const extractionJobId = params?.extractionJobId as string;
   const { data, isFetching, error } = useGetSheetAndFiles({ id: filesId ?? '' });
@@ -92,7 +92,7 @@ These are representative; grep for `jobId` / `job_id` for an exhaustive list.
 | **Shareable links** | `src/services/api/shareable-links.ts` — API types include `job_id` / `jobId` for folder jobs and rename flows. |
 | **Patch upload / misc API** | `src/components/common/api/patch-upload.ts` and related — job-scoped operations. |
 | **Tickets** | Report/ticket flows pass `jobId` where the ticket refers to a job (e.g. `report-button`, ticket modals). |
-| **Agents UI** | `src/components/modules/protected/agents/index.tsx` — passes `jobId` into credit/contract/excel subtrees, `ReportButton`, `SATExtractionManager`, etc. |
+| **Agents UI** | `src/components/modules/protected/agents/index.tsx` — passes `jobId` into Cissy/contract/excel subtrees, `ReportButton`, `SATExtractionManager`, etc. |
 | **Admin** | Sheet/files admin mapping includes `job_id` → `jobId` (`sheet-and-files-admin.ts`). |
 
 ---

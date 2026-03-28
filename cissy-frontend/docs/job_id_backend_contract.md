@@ -10,7 +10,7 @@ This document describes what **cissy-frontend** expects from the FastAPI (or oth
 
 ### Naming and alignment
 
-We deliberately reuse **`job_id`** (the same term as in [`job_id_source_of_truth.md`](./job_id_source_of_truth.md)) even though this product is **conversational BI**, not credit pipelines. In that doc, **`job_id`** is the **single stable identifier** for everything tied to one unit of work: chat, exports, and downstream APIs. Here, **one conversation thread** is that unit of work: one **`job_id`** scopes **all messages**, **stored context**, and **follow-up questions** for that thread.
+We deliberately reuse **`job_id`** (the same term as in [`job_id_source_of_truth.md`](./job_id_source_of_truth.md)) even though this product is **conversational BI**, not Cissy pipelines. In that doc, **`job_id`** is the **single stable identifier** for everything tied to one unit of work: chat, exports, and downstream APIs. Here, **one conversation thread** is that unit of work: one **`job_id`** scopes **all messages**, **stored context**, and **follow-up questions** for that thread.
 
 Using one name avoids inventing a second concept (`session_id` vs `thread_id` vs `job_id`) that would mean the same thing in practice and confuse API consumers.
 

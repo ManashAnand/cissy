@@ -8,6 +8,8 @@ import pytest
 # Force before any `from app...` import so Settings() picks this over .env
 os.environ["DUCKDB_PATH"] = ":memory:"
 os.environ["DATA_CSV_DIR"] = tempfile.mkdtemp(prefix="cissy-csv-")
+# Tests must not call the real OpenAI API
+os.environ["OPENAI_API_KEY"] = ""
 
 
 @pytest.fixture(autouse=True)

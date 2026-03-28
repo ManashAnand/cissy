@@ -25,5 +25,10 @@ class Settings(BaseSettings):
     # Raw CSVs (e.g. Instacart) — directory created at startup; contents gitignored
     data_csv_dir: Path = Path("./data/csv")
 
+    # NL → SQL (OpenAI). If unset, POST /query returns a stub asking to configure the key.
+    openai_api_key: str | None = None
+    bi_nl_model: str = "gpt-4o-mini"
+    bi_nl_max_rows: int = 500
+
 
 settings = Settings()

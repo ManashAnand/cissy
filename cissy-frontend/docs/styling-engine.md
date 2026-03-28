@@ -1,4 +1,4 @@
-# Styling engine and design model (credit-frontend-hencorp)
+# Styling engine and design model (Cissy-frontend-)
 
 This document describes **how this project is customized visually**: tooling, tokens, themes, typography, motion, and where gradients and component-level styles appear. Use it as the **company / product styling reference** when extending UI or aligning new screens with the existing app.
 
@@ -159,7 +159,7 @@ There is **no single global gradient token**. Gradients are applied **locally** 
 - **`pulse-highlight`** — indigo pulse for text selection highlights (`#text-selection-highlight`).
 - **`cursor-pulse` / `cursor-blink`** — streaming cursor near **`primary-100`**.
 - **`thinking-pulse`** — thinking dots (references `var(--color-primary-300)` in one place; prefer `primary-300` token alignment when adding new styles).
-- **Sidebar / resize** — transitions on `.main-content`, `.credit-layout`, `.resize-handle-*`, `.sidebar-container`.
+- **Sidebar / resize** — transitions on `.main-content`, `.Cissy-layout`, `.resize-handle-*`, `.sidebar-container`.
 
 **Framer Motion** is a dependency (`package.json`) for animated UI where used in components.
 
@@ -168,7 +168,7 @@ There is **no single global gradient token**. Gradients are applied **locally** 
 ## 7. Layout primitives
 
 - **Container** — `center: true`, `padding: 2rem`, max width **`2xl: 1400px`** (`tailwind.config.ts`).
-- **Credit analyst layout** — `.credit-layout` flex row; **`body.sidebar-wide`** switches to column; `.file-panel` / `.spreadsheet-panel` share flex rules and min-heights (`globals.css`).
+- **Cissy analyst layout** — `.Cissy-layout` flex row; **`body.sidebar-wide`** switches to column; `.file-panel` / `.spreadsheet-panel` share flex rules and min-heights (`globals.css`).
 - **Sidebar** — **`--sidebar-width`** (default `450px`) adjusts main content width when open (`body.sidebar-open`).
 
 ---

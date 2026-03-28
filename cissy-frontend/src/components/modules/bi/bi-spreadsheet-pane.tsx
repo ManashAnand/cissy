@@ -11,11 +11,20 @@ type BiSpreadsheetPaneProps = {
   /** Google Sheet (or any) URL to embed. Query `?widget=true&headers=false` is appended for Google hosts when missing. */
   url?: string | null;
   className?: string;
+  /**
+   * BI workspace: cap embed height (~40 visible rows) and scroll inside the iframe.
+   * Default: flexible height for other layouts.
+   */
+  variant?: "default" | "workspace";
 };
 
 const TAB_STORAGE_PREFIX = "bi-spreadsheet-tab-index:";
 
-export function BiSpreadsheetPane({ url, className }: BiSpreadsheetPaneProps) {
+export function BiSpreadsheetPane({
+  url,
+  className,
+  variant = "default",
+}: BiSpreadsheetPaneProps) {
   const fallbackUrl =
     url?.trim() ||
     (typeof process.env.NEXT_PUBLIC_BI_SPREADSHEET_URL === "string"
@@ -101,7 +110,13 @@ export function BiSpreadsheetPane({ url, className }: BiSpreadsheetPaneProps) {
   const showTabBar = google && tabs.length > 1;
 
   return (
-    <div className={cn("relative flex min-h-0 flex-1 flex-col bg-muted/20", className)}>
+    <div
+      className={cn(
+        "relative flex min-h-0 flex-col bg-muted/20",
+        variant === "workspace" ? "shrink-0" : "flex-1",
+        className
+      )}
+    >
       {showTabBar ? (
         <div
           className={cn(
@@ -155,7 +170,14 @@ export function BiSpreadsheetPane({ url, className }: BiSpreadsheetPaneProps) {
           </span>
         </div>
       ) : null}
-      <div className="relative min-h-[280px] flex-1">
+      <div
+        className={cn(
+          "relative min-h-0 w-full overflow-hidden",
+          variant === "workspace"
+            ? "max-h-[min(60rem,calc(100dvh-12rem))] shrink-0 h-[min(60rem,calc(100dvh-12rem))] lg:h-[min(60rem,calc(100dvh-10rem))]"
+            : "min-h-[280px] flex-1"
+        )}
+      >
         {!iframeLoaded ? (
           <div
             className={cn(
@@ -170,11 +192,16 @@ export function BiSpreadsheetPane({ url, className }: BiSpreadsheetPaneProps) {
           </div>
         ) : null}
         <iframe
-          title={activeTab?.name ?? "Credit spreads (output)"}
+          title={activeTab?.name ?? "Cissy spreads (output)"}
           key={src}
           src={src}
           onLoad={() => setIframeLoaded(true)}
-          className="h-full min-h-[280px] w-full border-0"
+          className={cn(
+            "w-full border-0",
+            variant === "workspace"
+              ? "h-full min-h-[200px]"
+              : "h-full min-h-[280px] flex-1"
+          )}
           allow="clipboard-read; clipboard-write"
         />
       </div>

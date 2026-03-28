@@ -1,5 +1,7 @@
 # Plan: Natural language → SQL → polished BI results
 
+**Status:** Core pipeline is implemented (OpenAI SQL + insight, DuckDB execution, chart heuristics, allowlisted tables). See [`nl_sql_implementation_steps.md`](./nl_sql_implementation_steps.md) for a plain-English walkthrough of what was built.
+
 This document is the **implementation plan** for the core Conversational BI flow: the user sends **plain English** on **`POST /api/v1/query`**, the backend **generates and runs DuckDB SQL**, and returns a **polished** response (**table + chart + short insight**), scoped by **`job_id`** for history and follow-ups.
 
 **Related docs:** [`job_id_usage.md`](./job_id_usage.md), [`conversation_api_structure.md`](./conversation_api_structure.md), Instacart views in `app/services/instacart_dataset.py`.

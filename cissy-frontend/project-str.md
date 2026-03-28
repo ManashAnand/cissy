@@ -1,6 +1,6 @@
 # Project structure
 
-This document describes how the **credit-frontend-hencorp** codebase is organized. The app is a [Next.js 14](https://nextjs.org/) (App Router) frontend written in **TypeScript**, using **Supabase** for auth, **TanStack Query** and **Redux** for data/state, **Tailwind CSS** + **Radix UI** for UI, and **PostHog** for analytics.
+This document describes how the **Cissy-frontend-** codebase is organized. The app is a [Next.js 14](https://nextjs.org/) (App Router) frontend written in **TypeScript**, using **Supabase** for auth, **TanStack Query** and **Redux** for data/state, **Tailwind CSS** + **Radix UI** for UI, and **PostHog** for analytics.
 
 ---
 
@@ -43,7 +43,7 @@ Next.js **App Router** defines routes, layouts, and API handlers.
 - **`src/app/(protected)/`** — Authenticated product UI. Layout checks Supabase user and redirects to sign-in if missing; wraps content with **Navbar** + main container.
   - `page.tsx` — Main dashboard/home under protection.
   - `admin/` — Admin dashboard and admin tickets.
-  - `credit-analyst/` — Credit analyst flows (job detail, org by domain, SAT analytics).
+  - `Cissy-analyst/` — Cissy analyst flows (job detail, org by domain, SAT analytics).
   - `contract-analyst/` — Contract analyst job views.
   - `financial-modeler/` — Financial modeler flows.
   - `settings/` — User/settings UI.
@@ -78,7 +78,7 @@ These typically bridge the browser to backend services while keeping secrets off
 | `Chat/` | Chat-related shared UI. |
 | `modules/auth/` | Auth screens and **api** helpers (`signin`, `signout`, `reset-password`, …). |
 | `modules/admin/` | Admin entry UI. |
-| `modules/protected/` | Main product surface area: **dashboard** (upload, jobs, history, shareable links/folders, steps including categorize-pages), **agents** (credit, contract, excel chats and tooling), **admin** tickets, **settings**, **tickets**. Often colocated **`api/`** folders for client-side fetch helpers next to the feature. |
+| `modules/protected/` | Main product surface area: **dashboard** (upload, jobs, history, shareable links/folders, steps including categorize-pages), **agents** (Cissy, contract, excel chats and tooling), **admin** tickets, **settings**, **tickets**. Often colocated **`api/`** folders for client-side fetch helpers next to the feature. |
 | `examples/` | Example or demo components. |
 | `test/` | Test-only or dev components. |
 

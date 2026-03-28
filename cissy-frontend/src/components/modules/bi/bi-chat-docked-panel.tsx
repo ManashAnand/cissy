@@ -18,8 +18,10 @@ export function BiChatDockedPanel({ jobId, onPopOut }: BiChatDockedPanelProps) {
   return (
     <aside
       className={cn(
-        "flex min-h-[min(52vh,440px)] w-full shrink-0 flex-col overflow-hidden border-t border-border bg-card",
-        "lg:min-h-0 lg:w-[min(420px,42vw)] lg:min-w-[300px] lg:max-w-[440px] lg:border-l lg:border-t-0"
+        "flex w-full shrink-0 flex-col overflow-hidden border-t border-border bg-card",
+        "min-h-[min(52vh,440px)] max-h-[min(60vh,560px)]",
+        "lg:min-h-0 lg:max-h-full lg:w-[min(420px,42vw)] lg:min-w-[300px] lg:max-w-[440px] lg:flex-shrink-0",
+        "lg:self-stretch lg:border-l lg:border-t-0"
       )}
       aria-label="Financial Analyst chat"
     >
@@ -45,7 +47,12 @@ export function BiChatDockedPanel({ jobId, onPopOut }: BiChatDockedPanelProps) {
           <Maximize2 className="h-4 w-4" />
         </Button>
       </header>
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-background/95 p-3 sm:p-4">
+      <div
+        className={cn(
+          "flex min-h-0 flex-1 flex-col overflow-hidden bg-background/95 p-3 sm:p-4",
+          "basis-0 lg:min-h-0"
+        )}
+      >
         <ChatShell floating routeJobId={jobId} />
       </div>
     </aside>

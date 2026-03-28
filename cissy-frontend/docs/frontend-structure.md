@@ -1,6 +1,6 @@
 # Frontend structure (Cissy BI)
 
-Mirrors **project-str.md** (credit-frontend pattern) with these differences:
+Mirrors **project-str.md** (Cissy-frontend pattern) with these differences:
 
 - **No authentication** — no `middleware.ts` session refresh, no `(auth)/`, no `components/modules/auth/`, no Supabase.
 - **Data layer** — `src/services/api/` and `src/utils/api/` call the **FastAPI** backend (DuckDB), not Supabase.
